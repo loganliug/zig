@@ -2189,7 +2189,7 @@ pub fn updateFunc(self: *MachO, module: *Module, func: *Module.Fn, air: Air, liv
     defer code_buffer.deinit();
 
     var decl_state = if (self.d_sym) |*d_sym|
-        try d_sym.dwarf.initDeclState(module, decl)
+        try d_sym.dwarf.initDeclState(module, decl_index)
     else
         null;
     defer if (decl_state) |*ds| ds.deinit();
@@ -2216,7 +2216,7 @@ pub fn updateFunc(self: *MachO, module: *Module, func: *Module.Fn, air: Air, liv
         try self.d_sym.?.dwarf.commitDeclState(
             &self.base,
             module,
-            decl,
+            decl_index,
             addr,
             decl.link.macho.size,
             ds,
@@ -2329,7 +2329,7 @@ pub fn updateDecl(self: *MachO, module: *Module, decl_index: Module.Decl.Index) 
     defer code_buffer.deinit();
 
     var decl_state: ?Dwarf.DeclState = if (self.d_sym) |*d_sym|
-        try d_sym.dwarf.initDeclState(module, decl)
+        try d_sym.dwarf.initDeclState(module, decl_index)
     else
         null;
     defer if (decl_state) |*ds| ds.deinit();
@@ -2367,7 +2367,7 @@ pub fn updateDecl(self: *MachO, module: *Module, decl_index: Module.Decl.Index) 
         try self.d_sym.?.dwarf.commitDeclState(
             &self.base,
             module,
-            decl,
+            decl_index,
             addr,
             decl.link.macho.size,
             ds,
